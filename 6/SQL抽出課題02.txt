@@ -1,0 +1,14 @@
+1.
+UPDATE gs_bm_table SET bookname='RB' WHERE id=7;
+
+2.
+UPDATE gs_bm_table SET bookname='GB' WHERE id =3 OR id=9;
+
+3.
+UPDATE gs_bm_table SET indate=sysdate() WHERE id=6 OR id=7 OR id=8;
+
+4.
+UPDATE gs_bm_table SET bookname='PHP&JS' WHERE bookname='JS本';
+
+5.
+UPDATE gs_bm_table SET book_cmt='未入力' WHERE book_cmt='';
