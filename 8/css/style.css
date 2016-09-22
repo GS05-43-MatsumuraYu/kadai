@@ -58,6 +58,7 @@ table.type04 th {
 	font-weight: bold;
 	vertical-align: top;
 	border-bottom: 1px solid #ccc;
+    margin-bottom: 40px;
 }
 table.type04 td {
 	width: 350px;
@@ -67,14 +68,14 @@ table.type04 td {
 }
 
 .block-cource{
-    margin-bottom:48px;
+    margin-bottom:2px;
 }
 .block-cource-lab{
-    margin-top:50px; 
+    margin-top:10px; 
 }
 
 .block-cource-lab{
-    margin-top:50px; 
+    margin-top:10px; 
 }
 
 .cource-img{
@@ -95,12 +96,23 @@ table.type04 td {
     float:left;
 }
 
-.cource-txt__reverse{
-    float:right;
+.h2{font-size:9px;
 }
 
 
 
 
+
+.cource-txt__reverse{
+    float:right;
+}
+
+.edit_botton{
+        float:left;    
+}
+
+.del_botton{
+        float:right;    
+}
 
 

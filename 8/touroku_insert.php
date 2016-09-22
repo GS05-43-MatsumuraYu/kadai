@@ -16,12 +16,12 @@ try {
 
 
 //３．データ登録SQL作成
-$stmt = $pdo->prepare("INSERT INTO gs_bm_table01(id, allbookpage, bookpage, book_start_dairy,book_finish_dairy,book_cmt )
+$stmt = $pdo->prepare("INSERT INTO gs_bm_table01(id, allbookpage, bookpage, book_start_dairy, book_finish_dairy,book_cmt )
 VALUES(NULL, :a2, :a3, :a4,:a5,:a6)");
 $stmt->bindValue('a2', $allbookpage, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue('a3', $bookpage, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue('a4', $book_start_dairy, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue('a5', $book_finish_dairy, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue('a4', $book_start_dairy,PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue('a5', $book_finish_dairy, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $stmt->bindValue('a6', $book_cmt, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 $status = $stmt->execute();
 
@@ -32,7 +32,7 @@ if($status==false){
   exit("QueryError:".$error[2]);
 }else{
   //５．index.phpへリダイレクト
-  header("Location: bm_insert_view.php");
+  header("Location: select01.php");
   exit;//いちおう入れている。
 
 }
