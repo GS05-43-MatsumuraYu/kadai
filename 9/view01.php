@@ -1,4 +1,5 @@
 <?php
+session_start();
 //1.  DB接続します
 try {
   $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost','root','');
@@ -31,7 +32,7 @@ if($status==false){
         $all = $result["bookpage"];
         $currnt = $result["allbookpage"]-$result["bookpage"];
         $book_start_dairy = $result["book_start_dairy"];
-        $book_finish_dairy = $result["book_finish_dairy"];
+//        $book_finish_dairy = $result["book_finish_dairy"];
           $edit ="";
           $edit .='<a href="select01.php?">';
           $edit .='[編集]';
@@ -39,7 +40,7 @@ if($status==false){
       $text .='<tr>';
       $text .='<td>'.$result["id"].'</td>';
       $text .='<td>'.$result["bookname"].'</td>';
-      $text .='<td><a href="select01.php?id='.$result["id"].'">詳しく見る</a></td>';
+      $text .='<td><a href="select01.php?id='.$result["id"].'">詳しく見る</a></td>';//ここのコードは正しくないから？
       $text .='</tr>';
         
   }
@@ -67,9 +68,18 @@ if($status==false){
             <h1 class="site-title">サービスロゴ</h1>
     </header>
 </div>
+        <form>
+			<div class='wrap'>
+<input type="button" value="新規登録" onClick="location.href='touroku_view.php?'">
+
+			</div>
+    </form>
 <table class="type04">
 <tr><th>No</th><th>書籍名</th><th>読書量</th></tr>
 <?=$text ?>
 </table>
+	<script src='js/jquery.min.js'></script>
+	<script src='js/jquery.FlowupLabels.js'></script>
+	<script src='js/main.js'></script>
 </body>
 </html>

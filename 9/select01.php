@@ -1,10 +1,12 @@
 <?php
+session_start();
 include("functions.php");
 //0.外部ファイル読み込み
 //1.  DB接続します
 $pdo = db_con();
 //２．データ登録SQL作成
 $stmt = $pdo->prepare("SELECT * FROM gs_bm_table01");
+
 $status = $stmt->execute();
 ?>    
 <?php
@@ -14,6 +16,7 @@ $status = $stmt->execute();
     
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $id = $result["id"];
+        $bookname = $result["bookname"];        
         $allbookpage = $result["allbookpage"];
         $bookpage =    $result["bookpage"];
         $difference = ($result["allbookpage"] - $result["bookpage"])/$result["allbookpage"]*100;
@@ -30,7 +33,7 @@ $status = $stmt->execute();
           $del .='[削除]';
           $del .='</a><br>';    
         $table= '<table class="type04"><tr><th scope="row">全体ページ数</th><th>'
-        .$result["allbookpage"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th>
+        .$result["idbookpage"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th>
         <th><a href="delete.php?id='.$result["id"].'">削除</a></th></tr>
         <tr><th scope="row">読書量</th><th>'
         .$result["bookpage"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th>
@@ -57,11 +60,11 @@ $status = $stmt->execute();
 <body id="inner">
     <header class="header">
         <div class="inner clearfix">
-            <h1 class="site-title">サービス一覧</h1>
+        <h1 class="site-title"><a href="view01.php">一覧にもどる</a></h1>
             <div class="list-header text-right">
                 </div>
     </header>
-    <p>書籍名：<?= $id ?></p>
+    <p>書籍名：<?= $bookname ?></p>
 <!-- <div class="block-cource block-cource-lab clearfix">-->
 <h3 class="cource-title text-center">読書量</h3>
 <div class="chart">
@@ -91,6 +94,5 @@ $status = $stmt->execute();
 </div>
 </div>
 <?=$table ?>
-
 </body>
 </html>

@@ -140,3 +140,8 @@ label{
     padding-left: 15px;
     
 }
+
+.wrap{
+    text-align:center;
+    padding:15 auto 20;
+}
