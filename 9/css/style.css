@@ -1,0 +1,147 @@
+@charset "utf-8";
+
+body{
+  font-size: 16px;
+  line-height: 22px;
+    font-family:'Helvetica Neue', Helvetica, Arial, YuGothic, 'Yu Gothic', 游ゴシック体, '游ゴシック', 'ヒラギノ角ゴ ProN W3', 'Hiragino         Kaku Gothic ProN', 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', メイリオ, Meiryo, 'MS ゴシック', 'MS Gothic', sans-serif;
+}
+
+
+/*---------------------
+tabel common classes
+----------------------*/
+#inner{
+    width:600px;
+    margin:0 auto;    
+}
+
+.text-center{
+    text-align:center;
+}
+.text-right{
+    text-align:right;
+}
+
+/*---------------------
+title module
+----------------------*/
+.header{
+    background-color: #383c3c;
+        margin-bottom: 27px;
+}
+
+.site-title{
+    float:left;
+    font-size: 18px;
+    color:white;
+}
+.cource-title{
+    font-size: 20px;
+}
+
+/*---------------------
+Chart module
+----------------------*/
+.chart{
+    position: relative;
+    margin: 10px auto 0;
+    padding: 10px;
+    width: 320px;
+    height: 320px;
+}
+
+.ttl{
+    position: absolute;
+    top: 115px;
+    left: 95px;
+    color: black;
+    font-size: 62px;
+    font-weight: bold;
+  
+}
+
+
+/*---------------------
+img module
+----------------------*/
+
+tabel.type03{
+    border:"1";
+    border-color:"#333333";    
+}
+
+table.type04 {
+	border-collapse: separate;
+	border-spacing: 1px;
+	text-align: left;
+	line-height: 1.5;
+	border-top: 1px solid #ccc;
+}
+table.type04 th {
+	width: 150px;
+	padding: 10px;
+	font-weight: bold;
+	vertical-align: top;
+	border-bottom: 1px solid #ccc;
+    margin-bottom: 40px;
+}
+table.type04 td {
+	width: 350px;
+	padding: 10px;
+	vertical-align: top;
+	border-bottom: 1px solid #ccc;
+}
+
+.block-cource{
+    margin-bottom:2px;
+}
+.block-cource-lab{
+    margin-top:10px; 
+}
+
+.block-cource-lab{
+    margin-top:10px; 
+}
+
+
+
+.cource-txt{
+    padding:28px 0 42px;
+    line-height: 1.5;
+}
+
+.cource-txt__usually{
+    float:left;
+}
+
+.h2{font-size:9px;
+}
+
+
+
+
+
+.cource-txt__reverse{
+    float:right;
+}
+
+.edit_botton{
+        float:left;    
+}
+
+.del_botton{
+        float:right;    
+}
+
+legend{
+    text-align:center;
+}
+label{
+    padding-left: 15px;
+    
+}
+
+.wrap{
+    text-align:center;
+    padding:15 auto 20;
+}
