@@ -1,53 +1,62 @@
 <?php
-session_start();
-//1.  DB接続します
-try {
-  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=localhost','root','');
-} catch (PDOException $e) {
-  exit('データベースに接続できませんでした。'.$e->getMessage());
-}
+include("functions.php");
+//0.外部ファイル読み込み
 
-//２．データ登録SQL作成 
-//問題　最新の５件のみを表示するsqlに変更してブラウザに表示する
+
+//1.  DB接続します
+$pdo = db_con();
+
+//２．データ登録SQL作成
 $stmt = $pdo->prepare("SELECT * FROM gs_bm_table01 ORDER BY id DESC LIMIT 10 ;;");
 $status = $stmt->execute();
 
-//３．データ表示
-$view="";
-if($status==false){
-  //execute（SQL実行時にエラーがある場合）
-  $error = $stmt->errorInfo();
-  exit("ErrorQuery:".$error[2]);
-
+    if($status==false){
+  queryError($stmt);
 }else{
   //Selectデータの数だけ自動でループしてくれる
-    $text = '';
-  while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
 
+$text="";
+  while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
         $id = $result["id"];
         $bookname = $result["bookname"];      
         $allbookpage = $result["allbookpage"];
         $bookpage =    $result["bookpage"];
-//        $difference = ($result["allbookpage"] - $result["bookpage"])/$result["allbookpage"]*100;
+        $difference = ($result["allbookpage"] - $result["bookpage"])/$result["allbookpage"]*100;
         $all = $result["bookpage"];
         $currnt = $result["allbookpage"]-$result["bookpage"];
         $book_start_dairy = $result["book_start_dairy"];
-//        $book_finish_dairy = $result["book_finish_dairy"];
+        $book_finish_dairy = $result["book_finish_dairy"];
           $edit ="";
-          $edit .='<a href="select01.php?">';
+          $edit .='<a href="detail.php?id='.$result["id"].'">';
           $edit .='[編集]';
           $edit .='</a>';
+          $del ="";
+          $del .='<a href="delete.php?id='.$result["id"].'">';
+          $del .='[削除]';
+          $del .='</a><br>';    
+
+      $text ='<table class="type04">';
+      $text .='<tr>';
+      $text .='<th>No</th>';
+      $text .='<th>書籍名</th>';
+      $text .='<th>読書量</th>';
+      $text .='</tr>';
+      
       $text .='<tr>';
       $text .='<td>'.$result["id"].'</td>';
       $text .='<td>'.$result["bookname"].'</td>';
-      $text .='<td><a href="select01.php?id='.$result["id"].'">詳しく見る</a></td>';//ここのコードは正しくないから？
+      $text .='<td>'.$result["bookpage"].'</td>';
       $text .='</tr>';
-        
-  }
+      
+      $text ='</table>';      
+//        $tables= '<table class="type04">
+//        <tr><th>No</th><th>書籍名</th><th>読書量</th></tr>
+//        <tr><td>'.$result["id"].'</td><td>'.$result["bookname"].'</td><td>'.$result["bookpage"].'</td></tr>
+//        </table>';
+    }
 }
-
-//echo linkify($text);
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -68,18 +77,8 @@ if($status==false){
             <h1 class="site-title">サービスロゴ</h1>
     </header>
 </div>
-        <form>
-			<div class='wrap'>
-<input type="button" value="新規登録" onClick="location.href='touroku_view.php?'">
 
-			</div>
-    </form>
-<table class="type04">
-<tr><th>No</th><th>書籍名</th><th>読書量</th></tr>
 <?=$text ?>
-</table>
-	<script src='js/jquery.min.js'></script>
-	<script src='js/jquery.FlowupLabels.js'></script>
-	<script src='js/main.js'></script>
+
 </body>
 </html>

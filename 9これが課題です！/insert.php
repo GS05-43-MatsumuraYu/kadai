@@ -30,7 +30,7 @@ if($status==false){
 
 }else{
   //５．index.phpへリダイレクト
-  header("Location: select01.php");
+  header("Location: view01.php");
   exit;
 }
 ?>

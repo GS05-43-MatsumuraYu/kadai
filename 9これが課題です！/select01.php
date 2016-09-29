@@ -1,24 +1,22 @@
 <?php
+session_start();
 include("functions.php");
 //0.外部ファイル読み込み
-
-
 //1.  DB接続します
 $pdo = db_con();
-
 //２．データ登録SQL作成
 $stmt = $pdo->prepare("SELECT * FROM gs_bm_table01");
-$status = $stmt->execute();
 
+$status = $stmt->execute();
 ?>    
 <?php
     if($status==false){
     queryError($stmt); //27行目でstmt に値を渡しているので、いれる必要がある。
-
     }else{    
     
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $id = $result["id"];
+        $bookname = $result["bookname"];        
         $allbookpage = $result["allbookpage"];
         $bookpage =    $result["bookpage"];
         $difference = ($result["allbookpage"] - $result["bookpage"])/$result["allbookpage"]*100;
@@ -35,21 +33,13 @@ $status = $stmt->execute();
           $del .='[削除]';
           $del .='</a><br>';    
         $table= '<table class="type04"><tr><th scope="row">全体ページ数</th><th>'
-        .$result["allbookpage"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th><th><a href="delete.php?id='.$result["id"].'">削除</a></th></tr>
+        .$result["allbookpage"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th>
+        <th><a href="delete.php?id='.$result["id"].'">削除</a></th></tr>
         <tr><th scope="row">読書量</th><th>'
-        .$result["bookpage"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th><th><a href="delete.php?id='.$result["id"].'">削除</a></th></tr><tr><th scope="row">読書開始日</th><th>'
+        .$result["bookpage"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th>
+        <th><a href="delete.php?id='.$result["id"].'">削除</a></th></tr><tr><th scope="row">読書開始日</th><th>'
         .$result["book_start_dairy"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th><th><a href="delete.php?id='.$result["id"].'">削除</a></th></tr><tr><th scope="row">読書終了予定日</th><th>'
         .$result["book_finish_dairy"].'</th><th><a href="detail.php?id='.$result["id"].'">編集</a></th><th><a href="delete.php?id='.$result["id"].'">削除</a></th></tr></table>';
-    }
-?>
-<?php
-$res ="";
-if(isset($_POST['bookpage'])){
-    if($_POST['allbookpage']%2 == 1){
-        $res = "80%";
-    }else{
-        $res = "70%";
-    }
     }
 ?>
 
@@ -70,11 +60,11 @@ if(isset($_POST['bookpage'])){
 <body id="inner">
     <header class="header">
         <div class="inner clearfix">
-            <h1 class="site-title">サービスロゴ</h1>
+        <h1 class="site-title"><a href="view01.php">一覧にもどる</a></h1>
             <div class="list-header text-right">
                 </div>
     </header>
-    <p>書籍名：<?= $id ?></p>
+    <p>書籍名：<?= $bookname ?></p>
 <!-- <div class="block-cource block-cource-lab clearfix">-->
 <h3 class="cource-title text-center">読書量</h3>
 <div class="chart">
@@ -104,6 +94,5 @@ if(isset($_POST['bookpage'])){
 </div>
 </div>
 <?=$table ?>
-
 </body>
 </html>
