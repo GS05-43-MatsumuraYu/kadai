@@ -3,13 +3,13 @@
 
 /************************* WiFi Access Point *********************************/
 
-#define WLAN_SSID       "pr500m-963ac5-1"
-#define WLAN_PASS       "2f058d9e02b68"
+#define WLAN_SSID       ""
+#define WLAN_PASS       ""
 
 
 /************************* Your Milkcocoa Setup *********************************/
 
-#define MILKCOCOA_APP_ID      "zooiv4gg5gp"
+#define MILKCOCOA_APP_ID      ""
 #define MILKCOCOA_DATASTORE   "esp8266/tout"
 
 /************* Milkcocoa Setup (you don't need to change this!) ******************/
