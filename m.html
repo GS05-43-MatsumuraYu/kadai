@@ -1,22 +1,37 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>simple chat!(send)</title>
+<title>テスト</title>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.mlkcca.com/v0.6.0/milkcocoa.js"></script>
-<script>
-  // Milkcocoaに接続
-  var milkcocoa = new MilkCocoa('zooiv4gg5gp.mlkcca.com');
-  // データストアを取得
-  var datastore = milkcocoa.dataStore('esp8266/tout');
-  datastore.on(‘send’, function(sent){
-  console.log(sent.value);
-  });
-</script>
+    <script>
+$(function(){
+    var milkcocoa = new MilkCocoa('zooiv4gg5gp.mlkcca.com');
+    var chatDataStore = milkcocoa.dataStore('esp8266/tout');
+    var history = milkcocoa.dataStore('esp8266/tout').history();
+    history.sort('DESC'); //ASC昇順、DESC降順
+    //history.size(1);//表示されていく数
+    history.limit(10);
+    var i = 0;
+    history.on('data', function(data) {
+          data.forEach(function(d,i){
+            //履歴表示で文字を加工する場合はここに記入
+            $("#board").append(d.value.v + '<br>');
+          });
+    });
+    history.on('end', function() {
+        console.log('end');//全部表示させた後の処理
+    });
+    history.on('error', function(err) {
+        console.error(err);
+    });
+    history.run();
+});
+    </script>
 </head>
-<!-- <body>
-<p>
-  値:  <span id="temperature"></span>グラム
-</p>
+<body>
+<div id="board">
+</div>
 </body>
-</html> -->
+</html>
