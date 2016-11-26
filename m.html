@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>simple chat!(send)</title>
+<script src="https://cdn.mlkcca.com/v0.6.0/milkcocoa.js"></script>
+<script>
+  // Milkcocoaに接続
+  var milkcocoa = new MilkCocoa('zooiv4gg5gp.mlkcca.com');
+  // データストアを取得
+  var datastore = milkcocoa.dataStore('esp8266/tout');
+  datastore.on(‘send’, function(sent){
+  console.log(sent.value);
+  });
+</script>
+</head>
+<!-- <body>
+<p>
+  値:  <span id="temperature"></span>グラム
+</p>
+</body>
+</html> -->
