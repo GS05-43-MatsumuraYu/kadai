@@ -7,7 +7,7 @@ $book_start_dairy = $_POST["book_start_dairy"];
 
 //2. DB接続します
 try {
-  $pdo = new PDO('mysql:dbname=gs_db;charset=utf8;host=127.0.0.1','root','');
+  $pdo = new PDO('mysql:dbname=spice-shelf_jp;charset=utf8;host=localhost','root','');
 } catch (PDOException $e) {
   exit('データベース接続エラー:'.$e->getMessage());
 }
