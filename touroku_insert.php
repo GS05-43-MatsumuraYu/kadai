@@ -12,8 +12,21 @@ try {
   exit('データベース接続エラー:'.$e->getMessage());
 }
 
+//2.DBに接続
+function db_con(){
+  $dbname = 'spice-shelf_jp';
+  $host   = 'mysql327.db.sakura.ne.jp';
+  $dsn    = 'mysql:dbname='.$dbname.';host='.$host.';charset=utf8';
+  $user   = 'spice-shelf';
+  $pass   = 'e4uyb4f9k2';
+  try {
+    $pdo = new PDO($dsn,$user,$pass);
+  } catch (PDOException $e) {
+    exit('データベース接続エラー:'.$e->getMessage());
+  }
+  return $pdo;
+}
 //３．データ登録SQL作成
-$stmt = $pdo->prepare("INSERT INTO gs_bm_table01(id, bookname,book_start_dairy)
 VALUES(NULL, :a2, :a4 )");
 $stmt->bindValue('a2', $bookname, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 // $stmt->bindValue('a3', $allbookpage, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
