@@ -16,14 +16,18 @@ if(
 }
 
 function db_con(){
-    $dbname='gs_db';
-    try {
-  $pdo = new PDO("mysql:dbname=spice-shelf_jp;host=spice-shelf.sakura.ne.jp", "spice-shelf", "e4uyb4f9k2");
-    } catch (PDOException $e) {
-      exit('DbConnectError:'.$e->getMessage());
-    }
-    return $pdo;
+  $dbname = 'spice-shelf_jp';
+  $host   = 'mysql327.db.sakura.ne.jp';
+  $dsn    = 'mysql:dbname='.$dbname.';host='.$host.';charset=utf8';
+  $user   = 'spice-shelf';
+  $pass   = 'e4uyb4f9k2';
+  try {
+    $pdo = new PDO($dsn,$user,$pass);
+  } catch (PDOException $e) {
+    exit('DbConnectError:'.$e->getMessage());
   }
+  return $pdo;
+}
 
 //SQL処理エラー
 function queryError($stmt){
