@@ -25,7 +25,7 @@ if($status==false){
         $bookpage =    $result["bookpage"];
 //        $difference = ($result["allbookpage"] - $result["bookpage"])/$result["allbookpage"]*100;
         $all = $result["bookpage"];
-        $currnt = $result["allbookpage"]-$result["bookpage"];
+        // $currnt = $result["allbookpage"]-$result["bookpage"];
         $book_start_dairy = $result["book_start_dairy"];
 //        $book_finish_dairy = $result["book_finish_dairy"];
           $edit ="";
@@ -34,7 +34,7 @@ if($status==false){
           $edit .='</a>';
       $text .='<tr>';
       $text .='<td>'.$result["bookname"].'</td>';
-      $text .='<td><span id="board"></span></td>';
+      $text .='<td><span class="js-board"></span><span>%</span></td>';
       $text .='<td>'.$result["book_start_dairy"].'</td>';
       $text .='<td><a href="select01.php?id='.$result["id"].'">詳しく見る</a></td>';//ここのコードは正しくないから？
       $text .='</tr>';
@@ -89,24 +89,22 @@ if($status==false){
       var chatDataStore = milkcocoa.dataStore('esp8266/tout');
       var history = milkcocoa.dataStore('esp8266/tout').history();
       history.sort('DESC'); //ASC昇順、DESC降順
-      //history.size(1);//表示されていく数
+      history.size(5);
       history.limit(1);
       var i = 0;
       history.on('data', function(data) {
-            data.forEach(function(d,i){
-              //履歴表示で文字を加工する場合はここに記入
-              $("#board").append(d.value.v + '<br>');
+            data.forEach(function(d){
+//残量を表示する
+              $('js-board').eq(i++).html(d.value.v);
+              var firstgram = "<?= $allbookpage ?>";
+              var nowgram = d.value.v;
+              var resultgram = (nowgram/firstgram)*100;
+              // alert(resultgram);
+              // $(".js-board").append(resultgram);
             });
       });
-      history.on('end', function() {
-          console.log('end');//全部表示させた後の処理
-      });
-      history.on('error', function(err) {
-          console.error(err);
-      });
-      history.run();
+   history.run();
   });
-      </script>
-
+</script>
 </body>
 </html>
