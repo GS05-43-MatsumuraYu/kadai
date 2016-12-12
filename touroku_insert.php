@@ -1,16 +1,10 @@
 <?php
+
 //1. POSTデータ取得
 $id = $_POST["id"];
 $bookname = $_POST["bookname"];
-// $allbookpage = $_POST["allbookpage"];
+$allbookpage = $_POST["allbookpage"];
 $book_start_dairy = $_POST["book_start_dairy"];
-
-//2. DB接続します
-try {
-  $pdo = new PDO("mysql:dbname=spice-shelf_jp;host=spice-shelf.sakura.ne.jp", "spice-shelf", "e4uyb4f9k2");
-} catch (PDOException $e) {
-  exit('データベース接続エラー:'.$e->getMessage());
-}
 
 //2.DBに接続
 function db_con(){
@@ -26,11 +20,25 @@ function db_con(){
   }
   return $pdo;
 }
+$pdo = db_con();
+
+
 //３．データ登録SQL作成
-VALUES(NULL, :a2, :a4 )");
-$stmt->bindValue('a2', $bookname, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-// $stmt->bindValue('a3', $allbookpage, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
-$stmt->bindValue('a4', $book_start_dairy,PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+// $stmt = $pdo->prepare("INSERT INTO gs_bm_table01(id, bookname,allbookpage,book_start_dairy)
+$stmt = $pdo->prepare("INSERT INTO gs_bm_table01(id, bookname,allbookpage,book_start_dairy)
+VALUES(NULL, '砂糖',80,'2016-11-02')");
+// $stmt->bindValue(':a2', $bookname, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+// $stmt->bindValue(':a3', $allbookpage, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
+// $stmt->bindValue(':a4', $book_start_dairy,PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
+
+// echo 'koko';
+// echo '<pre>';
+// var_dump($bookname);
+// var_dump($allbookpage);
+// var_dump($book_start_dairy);
+// var_dump($pdo);
+// echo '</pre>';
+// exit;
 
 $status = $stmt->execute();
 
