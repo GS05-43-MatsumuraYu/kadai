@@ -21,7 +21,7 @@
    <fieldset>
     <legend>調味料登録ページ</legend>
      <label>調味料の名前：<input type="text" name="bookname"></label><br>
-     <label>現在の容量：<span id="board" name="allbookpage"></span></label><br>
+     <label>現在の容量：<input type="text" name="allbookpage"><span class="js-board"></span></label><br>
      <label>賞味期限：<input type="date" name="book_start_dairy"></label><br>
      <input type ="hidden" name="id" value="<?=$id?>">
      <input type="submit" value="更新">
@@ -42,19 +42,15 @@
       var history = milkcocoa.dataStore('esp8266/tout').history();
       history.sort('DESC'); //ASC昇順、DESC降順
       //history.size(1);//表示されていく数
-      history.limit(1);
+      history.size(1);
+      history.limit(5);
       var i = 0;
       history.on('data', function(data) {
-            data.forEach(function(d,i){
+            data.forEach(function(d){
+              console.log('d:', d);
               //履歴表示で文字を加工する場合はここに記入
-              $("#board").append(d.value.v + '<br>');
+              $('.js-board').eq(i++).html(JSON.stringify(d.value));
             });
-      });
-      history.on('end', function() {
-          console.log('end');//全部表示させた後の処理
-      });
-      history.on('error', function(err) {
-          console.error(err);
       });
       history.run();
   });
