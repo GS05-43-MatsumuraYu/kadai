@@ -26,10 +26,10 @@ $pdo = db_con();
 //３．データ登録SQL作成
 // $stmt = $pdo->prepare("INSERT INTO gs_bm_table01(id, bookname,allbookpage,book_start_dairy)
 $stmt = $pdo->prepare("INSERT INTO gs_bm_table01(id, bookname,allbookpage,book_start_dairy)
-VALUES(NULL, '砂糖',80,'2016-11-02')");
-// $stmt->bindValue(':a2', $bookname, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
-// $stmt->bindValue(':a3', $allbookpage, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
-// $stmt->bindValue(':a4', $book_start_dairy,PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
+VALUES(NULL,:a2, :a3, :a5)");
+$stmt->bindValue(':a2', $bookname, PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':a3', $allbookpage, PDO::PARAM_INT);  //Integer（数値の場合 PDO::PARAM_INT)
+$stmt->bindValue(':a5', $book_start_dairy,PDO::PARAM_STR);  //Integer（数値の場合 PDO::PARAM_INT)
 
 // echo 'koko';
 // echo '<pre>';
