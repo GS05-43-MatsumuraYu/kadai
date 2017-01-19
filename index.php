@@ -1,81 +1,141 @@
-<!doctype html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<title>あなたの買い物を迷わせないIoT | Spice Shelf</title>
-	<meta name="description" content="">
-	<meta name="keywords" content="">
-	<meta name="viewport" content="width=640">
-	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/sp2.css">
-  <link rel="stylesheet" type="text/css" href="css/sp3.css">
+<?php
+// =============lineへの表示部分==================
 
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
-	<script type="text/javascript" src="js/function.js"></script>
-	<script type="text/javascript" src="js/flipsnap.min.js"></script>
-	<script type="text/javascript" src="js/sp.js"></script>
-	<script src='js/jquery.min.js'></script>
-	<script src='js/jquery.FlowupLabels.js'></script>
-	<script src='js/main.js'></script>
-</head>
-	<body>
-		<header>
-			<h1><a href="index.php"><img src="images/logo.png" height="35" width="190" alt="Design Company"></h1>
-			<nav>
-				<ul>
-					<li><a href="about.php"><img src="images/gn01b.png" height="15" width="75" alt="PROFILE"></a></li>
-					<li><a href="login.php"><img src="images/gn02b.png" height="15" width="75" alt="WORKS"></a></li>
-					<li><a href="touroku.php"><img src="images/gn03b.png" height="15" width="75" alt="RECRUIT"></a></li>
-					<li><a href="info.php"><img src="images/gn05b.png" height="15" width="70" alt="ACCESS"></a></li>
-				</ul>
-			</nav>
-		</header>
+$accessToken = '/tQBM8qKMjlmk3Kxd8pIzfX9HfgFqLUDcK2EYFkgR/6GL2Hdx09z8Bxnwhx9bhNHQ5EFtpPvtgZIFUrOou4w+HaVtZGR2S1g/FulhouwMFmj76PnA9GgpEnWnXotMNdOBxYz2u8+D1Ha2Ry9W1zhsgdB04t89/1O/w1cDnyilFU=ISSUE';
 
-<div class="box">
-   <div class="wrapper">
-		<span class=js-board></span><span>%</span>
-    <div class="box1"><img src="images/oil2.png" width="280" height="420" alt="oil" onmouseover="this.src='images/oil3.png'","this.innerHTML='<span class=js-board></span><span>%</span>'"  onmouseout="this.src='images/oil2.png'">
+//ユーザーからのメッセージ取得
+$json_string = file_get_contents('php://input');
+$jsonObj = json_decode($json_string);
 
-		</div>
+$type = $jsonObj->{"events"}[0]->{"message"}->{"type"};
+//メッセージ取得
+$text = $jsonObj->{"events"}[0]->{"message"}->{"text"};
+//ReplyToken取得
+$replyToken = $jsonObj->{"events"}[0]->{"replyToken"};
 
-    <div class="box2"><img src="images/pepper2.png" width="280" height="259" alt="pepper" onmouseover="this.src='images/pepper1.png'" onmouseout="this.src='images/pepper2.png'"></div>
+//メッセージ以外のときは何も返さず終了
+if($type != "text"){
+ exit;
+}
 
-    <div class="box3"><img src="images/suger2.png" width="280" height="259" alt="suger" onmouseover="this.src='images/suger1.png'" onmouseout="this.src='images/suger2.png'"></div>
+//返信データ作成
+$response_format_text2 = "";
+$response_format_text3 = "";
 
-    <div class="box4"><img src="images/soruce2.png" width="280" height="420" alt="pepper" onmouseover="this.src='images/soruce1.png'" onmouseout="this.src='images/soruce2.png'"></div>
-  </div>
-</div>
-</body>
+if($text=="残量は？"){
+ $response_format_text = [
+ "type" => "text",
+ "text" => "ttl1
+ ];
+}else{
+ exit;
+}
 
-<footer>
-<p><img src="images/copyy.png" width="405" height="40" alt="Copyright 2015 Sweet*Time All rights reserved."/></p>
-</footer>
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://cdn.mlkcca.com/v0.6.0/milkcocoa.js"></script>
+$post_data = [
+"replyToken" => $replyToken,
+"messages" => [$response_format_text]
+];
+
+$ch = curl_init("https://api.line.me/v2/bot/message/reply");
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+ 'Content-Type: application/json; charser=UTF-8',
+ 'Authorization: Bearer ' . $accessToken
+ ));
+$result = curl_exec($ch);
+curl_close($ch);
+
+?>
+// =============PHPのDB接続部分==================
+<?php
+session_start();
+include("functions1.php");
+$pdo = db_con();
+//２．データ登録SQL作成
+//$stmt = $pdo->prepare("SELECT * FROM gs_bm_table01");
+$stmt = $pdo->prepare("SELECT * FROM gs_bm_table01 ORDER BY id DESC LIMIT 1 ;;");
+$status = $stmt->execute();
+//３．データ表示
+$view="";
+if($status==false){
+  //execute（SQL実行時にエラーがある場合）
+  $error = $stmt->errorInfo();
+  exit("ErrorQuery:".$error[2]);
+}else{
+  //Selectデータの数だけ自動でループしてくれる
+    $text = '';
+  while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+        $id = $result["id"];
+        $bookname = $result["bookname"];
+        $allbookpage = $result["allbookpage"];
+        $bookpage =    $result["bookpage"];
+//        $difference = ($result["allbookpage"] - $result["bookpage"])/$result["allbookpage"]*100;
+        $all = $result["bookpage"];
+        $currnt = $result["allbookpage"]-$result["bookpage"];
+        $book_start_dairy = $result["book_start_dairy"];
+//        $book_finish_dairy = $result["book_finish_dairy"];
+          $edit ="";
+          $edit .='<a href="select01.php?">';
+          $edit .='[編集]';
+          $edit .='</a>';
+      $text .='<tr>';
+      $text .='<td>'.$result["bookname"].'</td>';
+      $text .='<td><span id="board"></span></td>';
+      $text .='<td>'.$result["book_start_dairy"].'</td>';
+      $text .='<td><a href="select01.php?id='.$result["id"].'">詳しく見る</a></td>';//ここのコードは正しくないから？
+      $text .='</tr>';
+  }
+}
+?>
+// =============残量の計算==================
+
 <script>
-$(function(){
-		var milkcocoa = new MilkCocoa('zooiv4gg5gp.mlkcca.com');
-		var chatDataStore = milkcocoa.dataStore('esp8266/tout');
-		var history = milkcocoa.dataStore('esp8266/tout').history();
-		history.sort('DESC'); //ASC昇順、DESC降順
-		//history.size(1);//表示されていく数
-		history.size(1);
-		history.limit(5);
-		var i = 0;
-		history.on('data', function(data) {
-					data.forEach(function(d){
-						console.log('d:', d);
-						//残量を表示する
-						$('.js-board').eq(i++).html(JSON.stringify(d.value));
-						var firstgram = "200";
-						var nowgram = d.value.v;
-						var resultgram = 100;
-						// alert(resultgram);
-						$(".ttl").append(resultgram);
-					});
-		});
- history.run();
-  });
-      </script>
+        $(function(){
+
+        	var milkcocoa = new MilkCocoa('zooiv4gg5gp.mlkcca.com');
+        	var chatDataStore = milkcocoa.dataStore('esp8266/tout');
+        	var history = milkcocoa.dataStore('esp8266/tout').history();
+        	history.sort('DESC'); //ASC昇順、DESC降順
+        	history.size(1);
+        	history.limit(20); // 20件
+          var i = 0;
+        	// 探したいキー値
+        	var KEY = '1';
+        	// 値が見つかったらtrueにする制御フラグ
+        	var done = false;
+        	// API結果を取得する.
+        	history.on('data', function(data) {
+        		data.forEach(function(d) {
+        			// すでに取得済みなら何もしない
+        			if (done) {
+        				return;
+        			}
+        			// キー値を取得する。
+        			var key = Object.keys(d.value)[0];
+        			// 探しているキーの場合は、値を取得する。
+        			if (key === KEY) {
+        				done = true;
+        				callback(key, d.value[key]);
+        			}
+        		});
+        	});
+        	// 値を見つけたら呼び出す関数
+        	function callback(key, value) {
+        		console.log('見つけたよ。key=' + key + ', value=' + value);
+            var firstgram = "<?= $allbookpage ?>";
+            var val = value; // 1
+            console.log(val);
+            var resultgram = Math.round((val/firstgram)*1000) / 10;
+            // alert(resultgram);
+        		$(".ttl1").append(resultgram);
+            // $('ttl3').eq(i++).html(resultgram);
+            // console.log(ttl3);
+        	}
+          history.run();
+   });
+
+</script>
