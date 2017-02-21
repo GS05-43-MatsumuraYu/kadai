@@ -1,7 +1,6 @@
 <?php
 
 require_once('./line_class.php');
-require_once('./TextMessageHandler.php');
 
 $channelAccessToken = 'Abf5CfWYGgqG5gPpxE17p66IcsC/efbowOC98tn6msKqQ2/JF/m27SI5i++mxlgZQ5EFtpPvtgZIFUrOou4w+HaVtZGR2S1g/FulhouwMFkXI+CQ6ECv1PFedqqJXNPLcw4O0DiYQ3/Ov9rCYJQqWQdB04t89/1O/w1cDnyilFU='; //sesuaikan
 $channelSecret = '908dadf7b1657fe506af66a71f3a8a92';//sesuaikan
@@ -58,29 +57,29 @@ if($message['type']=='text')
 	if($pesan_datang=='3')
 	{
 		$get_sub = array();
-		$buttons =   array(
+		$aa =   array(
 			{
-					"type": "template",
-					"altText": "this is a confirm template",
-					"template": {
-					"type": "confirm",
-					"text": "Are you sure?",
-					"actions": [
+				'type' => 'template',
+				'altText' => 'this is a confirm template',
+					'template': {
+				'type' => 'confirm',
+				'text' => 'Are you sure?',
+					'actions': [
 							{
-								"type": "message",
-								"label": "Yes",
-								"text": "yes"
+				'type' => 'confirm',
+				'label' => 'Yes',
+				'text' => 'yes',
 							},
 							{
-								"type": "message",
-								"label": "No",
-								"text": "no"
+								'type' => 'confirm',
+								'label' => 'No',
+								'text' => 'no',
 							}
 					]
 					}
-					}
+				}
 										);
-		array_push($get_sub,$buttons);
+		array_push($get_sub,$aa);
 		$get_sub[] = array(
 									'type' => 'text',
 									'text' => 'こんにちは '.$profil->displayName.', ソースの残量は55.3%です。関連情報はhttp://u0u1.net/BLKr です。.'
