@@ -11,8 +11,8 @@ function db_con(){
   $dbname = 'spice-shelf_jp';
   $host   = 'mysql327.db.sakura.ne.jp';
   $dsn    = 'mysql:dbname='.$dbname.';host='.$host.';charset=utf8';
-  $user   = 'spice-shelf';
-  $pass   = 'e4uyb4f9k2';
+  $user   = '';
+  $pass   = '';
   try {
     $pdo = new PDO($dsn,$user,$pass);
   } catch (PDOException $e) {
