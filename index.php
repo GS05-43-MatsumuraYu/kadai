@@ -1,7 +1,7 @@
 <?php
 // =============lineへの表示部分==================
 
-$accessToken = '/tQBM8qKMjlmk3Kxd8pIzfX9HfgFqLUDcK2EYFkgR/6GL2Hdx09z8Bxnwhx9bhNHQ5EFtpPvtgZIFUrOou4w+HaVtZGR2S1g/FulhouwMFmj76PnA9GgpEnWnXotMNdOBxYz2u8+D1Ha2Ry9W1zhsgdB04t89/1O/w1cDnyilFU=ISSUE';
+$accessToken = '';
 
 //ユーザーからのメッセージ取得
 $json_string = file_get_contents('php://input');
